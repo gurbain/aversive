@@ -105,6 +105,7 @@ void bd_manage_from_speed_cmd(struct blocking_detection * bd,
 		}
 #endif
 	}
+	bd->speed = speed;
 }
 
 /** function to be called periodically */
