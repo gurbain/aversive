@@ -100,8 +100,8 @@ void bd_manage_from_speed_cmd(struct blocking_detection * bd,
 			      cmd, speed, i);
 			bd->debug_cpt = 0;
 		}
-	}
 #endif
+	}
 }
 
 /** function to be called periodically */
