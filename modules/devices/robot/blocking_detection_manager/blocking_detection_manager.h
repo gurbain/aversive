@@ -25,8 +25,10 @@
 #ifndef BLOCKING_DETECTION_MANAGER_H_
 #define BLOCKING_DETECTION_MANAGER_H_
 
-/* display debug every 128 calls of manage if defined */
-#define BD_DEBUG 128
+/* display debug every BD_DEBUG calls of manage if set to a non 0 value */
+#define BD_DEBUG	0
+/* store the computed current value in the blocking_detection structure */
+#define BD_DEBUG_I
 
 #include <control_system_manager.h>
 
@@ -50,8 +52,11 @@ struct blocking_detection {
 	uint16_t cpt_thres;
 	uint16_t cpt;
 	uint16_t speed_thres;
-#ifdef BD_DEBUG
+#if BD_DEBUG
 	uint16_t debug_cpt;
+#endif
+#ifdef BD_DEBUG_I
+	int32_t i;
 #endif
 
 	int32_t prev_pos;

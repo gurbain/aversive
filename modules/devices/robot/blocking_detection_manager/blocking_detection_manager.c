@@ -82,6 +82,9 @@ void bd_manage_from_speed_cmd(struct blocking_detection * bd,
 	/* if current-based blocking_detection enabled */
 	if ( bd->cpt_thres ) {
 		i = bd->k1 * cmd - bd->k2 * speed;
+#ifdef BD_DEBUG_I
+		bd->i = ABS(i);
+#endif
 		if ((uint32_t)ABS(i) > bd->i_thres && 
 		    (bd->speed_thres == 0 || ABS(speed) < bd->speed_thres)) {
 			if (bd->cpt == bd->cpt_thres - 1)
