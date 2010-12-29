@@ -5,6 +5,7 @@
 # B. Weddington, J÷rg Wunsch, et al.
 #
 
+MSG_ARCHIVING = Archiving:
 MSG_COMPILING = Compiling:
 MSG_PREPROC = Preprocessing:
 
@@ -24,12 +25,17 @@ else
 PREPROC=
 endif
 
+ifndef VERBOSE
+QUIET = @
+endif
+
 # Default target.
 all: compiler_files/$(TARGET).$(HOST).a
 
 # Module library file
 compiler_files/$(TARGET).$(HOST).a: $(PREPROC) $(OBJ)
-	${AR} rs $@ $(OBJ) 2>&1
+	@echo $(MSG_ARCHIVING) $<
+	$(QUIET)$(AR) rs $@ $(OBJ) 2>&1
 
 # Automatically generate C source code dependencies. 
 compiler_files/%.$(HOST).d : %.c
@@ -41,11 +47,11 @@ compiler_files/%.$(HOST).d : %.c
 
 compiler_files/%.$(HOST).o : %.c
 	@echo $(MSG_COMPILING) $< 
-	$(CC) $(CFLAGS) $< -c -o $@
+	$(QUIET)$(CC) $(CFLAGS) $< -c -o $@
 
 compiler_files/%.$(HOST).preproc : %.c
 	@echo $(MSG_PREPROC) $< 
-	$(CC) $(CFLAGS) $< -E -o $@
+	$(QUIET)$(CC) $(CFLAGS) $< -E -o $@
 
 # Compile: create assembler files from C source files.
 compiler_files/%.$(HOST).s : %.c

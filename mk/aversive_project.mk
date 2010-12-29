@@ -193,7 +193,9 @@ export AVRDUDE_PROGRAMMER
 export MCU
 export PROGRAMMER
 
-
+ifndef VERBOSE
+QUIET = @
+endif
 
 # ---------------------------------------------------------------------------
 
@@ -257,32 +259,28 @@ $(MODULES):
 
 # Link: create ELF output file from object files.
 $(OUTPUT): $(PREPROC) $(OBJ) $(MODULES_LIB)
-	@echo
 	@echo $(MSG_LINKING) $@
-	$(CC) $(OBJ) $(MODULES_LIB) --output $@ $(LDFLAGS)
+	$(QUIET)$(CC) $(OBJ) $(MODULES_LIB) --output $@ $(LDFLAGS)
 
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).preproc : %.c
-	@echo
 	@echo $(MSG_PREPROC) $<
-	$(CC) -E $(ALL_CFLAGS) $< -o $@
+	$(QUIET)$(CC) -E $(ALL_CFLAGS) $< -o $@
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).o : %.c
-	@echo
 	@echo $(MSG_COMPILING) $<
-	$(CC) -c $(ALL_CFLAGS) $(ABS_PROJECT_DIR)/$< -o $@
+	$(QUIET)$(CC) -c $(ALL_CFLAGS) $(ABS_PROJECT_DIR)/$< -o $@
 
 
 # Compile: create assembler files from C source files.
 compiler_files/%.$(HOST).s : %.c
-	$(CC) -S $(ALL_CFLAGS) $< -o $@
+	$(QUIET)$(CC) -S $(ALL_CFLAGS) $< -o $@
 
 
 # Assemble: create object files from assembler source files.
 compiler_files/%.$(HOST).o : %.S
-	@echo 
 	@echo $(MSG_ASSEMBLING) $<
 	$(CC) -c $(ASFLAGS) $< -o $@
 
@@ -292,25 +290,21 @@ compiler_files/%.$(HOST).o : %.S
 
 # Create final output files (.hex, .eep) from ELF output file.
 %.$(FORMAT_EXTENSION): %.elf
-	@echo
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
 
 %.eep: %.elf
-	@echo
 	@echo $(MSG_EEPROM) $@
 	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
 	--change-section-lma .eeprom=0 -O $(FORMAT) $< $@
 
 # Create extended listing file from ELF output file.
 compiler_files/%.lss: %.elf
-	@echo
 	@echo $(MSG_EXTENDED_LISTING) $@
 	$(OBJDUMP) -h -S $< > $@
 
 # Create a symbol table from ELF output file.
 compiler_files/%.sym: %.elf
-	@echo
 	@echo $(MSG_SYMBOL_TABLE) $@
 	$(NM) -n $< > $@
 
