@@ -208,15 +208,16 @@ MSG_FLASH = Creating load file for Flash:
 MSG_EEPROM = Creating load file for EEPROM:
 MSG_EXTENDED_LISTING = Creating Extended Listing:
 MSG_SYMBOL_TABLE = Creating Symbol Table:
-MSG_LINKING = Linking:
-MSG_COMPILING = Compiling:
-MSG_PREPROC = Preprocessing:
-MSG_ASSEMBLING = Assembling:
+MSG_LINKING = "\t[LD]\t\t"
+MSG_COMPILING = "\t[CC]\t\t"
+MSG_DEPEND = "\t[DEPEND]\t"
+MSG_PREPROC = "\t[PREPROC]\t"
+MSG_ASSEMBLING = "\t[AS]\t\t"
 MSG_CLEANING = Cleaning project:
 MSG_MD5_BEFORE = Processing MD5:
 MSG_MD5_AFTER = Processing MD5:
 MSG_DEPCLEAN = Cleaning deps:
-MSG_MODULE = ------ Compiling Module:
+MSG_MODULE = "------- [MODULE]\t"
 
 
 # ---------------------------------------------------------------------------
@@ -254,23 +255,23 @@ modules: $(MODULES)
 
 $(MODULES):
 	@echo
-	@echo $(MSG_MODULE) $@
+	@echo -e $(MSG_MODULE) $@
 	@$(MAKE) VPATH=$(ABS_AVERSIVE_DIR)/modules/$@ -f $(AVERSIVE_DIR)/modules/$@/Makefile
 
 # Link: create ELF output file from object files.
 $(OUTPUT): $(PREPROC) $(OBJ) $(MODULES_LIB)
-	@echo $(MSG_LINKING) $@
+	@echo -e $(MSG_LINKING) $@
 	$(QUIET)$(CC) $(OBJ) $(MODULES_LIB) --output $@ $(LDFLAGS)
 
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).preproc : %.c
-	@echo $(MSG_PREPROC) $<
+	@echo -e $(MSG_PREPROC) $@
 	$(QUIET)$(CC) -E $(ALL_CFLAGS) $< -o $@
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).o : %.c
-	@echo $(MSG_COMPILING) $<
+	@echo -e $(MSG_COMPILING) $@
 	$(QUIET)$(CC) -c $(ALL_CFLAGS) $(ABS_PROJECT_DIR)/$< -o $@
 
 
@@ -281,7 +282,7 @@ compiler_files/%.$(HOST).s : %.c
 
 # Assemble: create object files from assembler source files.
 compiler_files/%.$(HOST).o : %.S
-	@echo $(MSG_ASSEMBLING) $<
+	@echo -e $(MSG_ASSEMBLING) $@
 	$(CC) -c $(ASFLAGS) $< -o $@
 
 
@@ -464,7 +465,7 @@ compiler_files/%.$(HOST).d: %.c
 	  echo "Missing config files, please run make menuconfig or make config"; \
 	  exit 1; \
 	fi
-	@echo Generating $@
+	@echo -e $(MSG_DEPEND) $<
 	@set -e; rm -f $@; \
 	$(CC) -M $(CFLAGS) $< > $@.$$$$; \
 	sed 's,\($*\)\.o[ :]*,compiler_files/\1.$(HOST).o $@ : ,g' < $@.$$$$ > $@; \
