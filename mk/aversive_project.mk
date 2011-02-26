@@ -238,13 +238,10 @@ export CFLAGS EXTRAINCDIRS
 
 
 # Default target.
-all: compiler_files gccversion sizebefore md5sumbefore modules $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
+all: gccversion sizebefore md5sumbefore modules $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
 
 # only compile project files
-project: compiler_files gccversion sizebefore md5sumbefore $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
-
-compiler_files:
-	@mkdir -p compiler_files
+project: gccversion sizebefore md5sumbefore $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
 
 
 # ------ Compilation/link/assemble targets
@@ -266,22 +263,26 @@ $(OUTPUT): $(PREPROC) $(OBJ) $(MODULES_LIB)
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).preproc : %.c
+	@mkdir -p $(dir $@)
 	@echo -e $(MSG_PREPROC) $@
 	$(QUIET)$(CC) -E $(ALL_CFLAGS) $< -o $@
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).o : %.c
+	@mkdir -p $(dir $@)
 	@echo -e $(MSG_COMPILING) $@
 	$(QUIET)$(CC) -c $(ALL_CFLAGS) $(ABS_PROJECT_DIR)/$< -o $@
 
 
 # Compile: create assembler files from C source files.
 compiler_files/%.$(HOST).s : %.c
+	@mkdir -p $(dir $@)
 	$(QUIET)$(CC) -S $(ALL_CFLAGS) $< -o $@
 
 
 # Assemble: create object files from assembler source files.
 compiler_files/%.$(HOST).o : %.S
+	@mkdir -p $(dir $@)
 	@echo -e $(MSG_ASSEMBLING) $@
 	$(CC) -c $(ASFLAGS) $< -o $@
 
@@ -301,11 +302,13 @@ compiler_files/%.$(HOST).o : %.S
 
 # Create extended listing file from ELF output file.
 compiler_files/%.lss: %.elf
+	@mkdir -p $(dir $@)
 	@echo $(MSG_EXTENDED_LISTING) $@
 	$(OBJDUMP) -h -S $< > $@
 
 # Create a symbol table from ELF output file.
 compiler_files/%.sym: %.elf
+	@mkdir -p $(dir $@)
 	@echo $(MSG_SYMBOL_TABLE) $@
 	$(NM) -n $< > $@
 
@@ -444,7 +447,7 @@ dep_list:
 
 # Automatically generate C source code dependencies. 
 compiler_files/%.$(HOST).d: %.c
-	@mkdir -p compiler_files ; \
+	@mkdir -p $(dir $@) ; \
 	error=0; \
 	for conf_file in .config autoconf.h .aversive_conf; do \
 	  if [ ! -f $$conf_file ]; then \
