@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: timer3_register_OV.c,v 1.1.2.2 2007/05/23 17:18:15 zer0 Exp $
+ *  Revision : $Id: timer3_register_OV.c,v 1.1.2.2 2007-05-23 17:18:15 zer0 Exp $
  *
  */
 
@@ -30,7 +30,7 @@
 #include <timer_config.h>
 
 
-#if defined TIMER3_ENABLED && defined SIG_OVERFLOW3
-DEFINE_REGISTER_OV_INTR(3)
+#if defined TIMER3_ENABLED && defined TIMER3_OVF_vect
+DEFINE_REGISTER_OV_INTR(3, TIMER3_OVF_vect)
 #endif
 

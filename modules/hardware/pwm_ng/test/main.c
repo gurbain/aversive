@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: main.c,v 1.1.2.1 2009/01/23 23:04:16 zer0 Exp $
+ *  Revision : $Id: main.c,v 1.1.2.1 2009-01-23 23:04:16 zer0 Exp $
  *
  */
 
@@ -25,15 +25,23 @@
 
 int main(void)
 {
-	struct pwm_ng pwm;
-
-	pwm_ng_timer_16bits_init(1, TIMER_16_MODE_PWM_10, 
-				 TIMER1_PRESCALER_DIV_256);
 	
-	pwm_ng_init(&pwm, 16, 10, PWM_NG_MODE_SIGNED,
-		    &OCR1A, COM1A0, &TCCR1A, &PORTD, 3, &PORTE, 0);
+	
+	
+	struct pwm_ng pwm1_4A;
+	struct pwm_ng pwm2_4B;
 
-	pwm_ng_set(&pwm, 100);
+	
+	PWM_NG_TIMER_16BITS_INIT(4, TIMER_16_MODE_PWM_PC_10, TIMER4_PRESCALER_DIV_8);
+	
+	PWM_NG_TIMER_16BITS_INIT(1, TIMER_16_MODE_PWM_PC_10, TIMER1_PRESCALER_DIV_8);
+
+	PWM_NG_INIT16(&pwm1_4A, 1, A, 10,PWM_NG_MODE_SPECIAL_SIGN | PWM_NG_MODE_SIGNED, &PORTA, 4);
+	PWM_NG_INIT16(&pwm2_4B, 1, B, 10,PWM_NG_MODE_SPECIAL_SIGN | PWM_NG_MODE_SIGNED, &PORTA, 5);
+
+	pwm_ng_set(&pwm1_4A, 1000);
+	pwm_ng_set(&pwm2_4B, -2000);
+	
 
 	while(1);
 	return 0;

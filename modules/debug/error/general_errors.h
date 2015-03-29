@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: general_errors.h,v 1.5.4.3 2009/01/23 23:54:15 zer0 Exp $
+ *  Revision : $Id: general_errors.h,v 1.5.4.3 2009-01-23 23:54:15 zer0 Exp $
  *
  */
 

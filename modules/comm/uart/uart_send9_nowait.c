@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: uart_send9_nowait.c,v 1.1.2.2 2008/12/27 16:50:01 zer0 Exp $
+ *  Revision : $Id: uart_send9_nowait.c,v 1.1.2.2 2008-12-27 16:50:01 zer0 Exp $
  *
  */
 
@@ -25,7 +25,7 @@
 #include <uart_defs.h>
 #include <uart_private.h>
 
-int uart_send_9bits_nowait(int c)
+int uart_send_9bits_nowait(uint8_t num, int c)
 {
 	uint8_t flags;
 	IRQ_LOCK(flags);
@@ -36,7 +36,7 @@ int uart_send_9bits_nowait(int c)
 		if (*uart_regs[num].ucsra & (1<<UDRE)) {
 			uart_set_udr_9bits(c);
 			IRQ_UNLOCK(flags);
-			return c;
+			return 0;
 		}
 		else {
 			IRQ_UNLOCK(flags);
@@ -61,5 +61,5 @@ int uart_send_9bits_nowait(int c)
 	}
 
 	IRQ_UNLOCK(flags);
-	return (int)c;
+	return 0;
 }

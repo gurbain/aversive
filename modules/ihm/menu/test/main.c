@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: main.c,v 1.3.4.2 2007/05/23 17:18:15 zer0 Exp $
+ *  Revision : $Id: main.c,v 1.3.4.2 2007-05-23 17:18:15 zer0 Exp $
  *
  */
 
@@ -29,6 +29,10 @@
 #include <aversive/wait.h>
 #include <uart.h>
 #include <menu.h>
+
+#ifdef HOST_VERSION
+#include <hostsim.h>
+#endif
 
 int myparam=0;
 
@@ -102,7 +106,7 @@ int main(void)
 #ifdef HOST_VERSION        
 	scanf("%c",&c);
 #else
-        c=uart0_recv();
+        c=uart_recv(0);
 #endif
         m=menu_default_update(m, c);
     }

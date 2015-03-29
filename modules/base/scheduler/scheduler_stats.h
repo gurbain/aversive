@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: scheduler_stats.h,v 1.1.2.1 2009/11/08 17:33:14 zer0 Exp $
+ *  Revision : $Id: scheduler_stats.h,v 1.1.2.1 2009-11-08 17:33:14 zer0 Exp $
  *
  * Olivier MATZ <zer0@droids-corp.org>
  */
@@ -30,6 +30,7 @@ struct scheduler_stats {
 	uint32_t del_event;
 	uint32_t max_stacking;
 	uint32_t task_delayed[SCHEDULER_NB_MAX_EVENT];
+	uint32_t task_scheduled[SCHEDULER_NB_MAX_EVENT];
 };
 
 extern struct scheduler_stats sched_stats;

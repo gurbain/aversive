@@ -1,6 +1,6 @@
-/*  
+/*
  *  Copyright Droids Corporation, Microb Technology, Eirbot (2005)
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: robot_system.c,v 1.6.4.7 2009/03/29 18:48:23 zer0 Exp $
+ *  Revision : $Id: robot_system.c,v 1.6.4.7 2009-03-29 18:48:23 zer0 Exp $
  *
  */
 
@@ -32,13 +32,15 @@
 #include <aversive/error.h>
 
 #include <aversive.h>
+#ifdef CONFIG_MODULE_ROBOT_SYSTEM_USE_F64
 #include <f64.h>
+#endif
 
 #include "angle_distance.h"
 #include "robot_system.h"
 
 
-/** Call a pwm() pointer : 
+/** Call a pwm() pointer :
  * - lock the interrupts
  * - read the pointer to the pwm function
  * - unlock the interrupts
@@ -60,7 +62,7 @@ safe_setpwm(void (*f)(void *, int32_t), void * param, int32_t value)
 	}
 }
 
-/** Call a encoder() pointer : 
+/** Call a encoder() pointer :
  * - lock the interrupts
  * - read the pointer to the encoder function
  * - unlock the interrupts
@@ -132,7 +134,7 @@ void rs_set_right_pwm(struct robot_system * rs, void (*right_pwm)(void *, int32_
 
 #ifdef CONFIG_MODULE_ROBOT_SYSTEM_MOT_AND_EXT
 /** define left motor encoder function and param */
-void rs_set_left_mot_encoder(struct robot_system * rs, int32_t (*left_mot_encoder)(void *), 
+void rs_set_left_mot_encoder(struct robot_system * rs, int32_t (*left_mot_encoder)(void *),
 			     void *left_mot_encoder_param, double gain)
 {
 	uint8_t flags;
@@ -145,7 +147,7 @@ void rs_set_left_mot_encoder(struct robot_system * rs, int32_t (*left_mot_encode
 }
 
 /** define right motor encoder function and param */
-void rs_set_right_mot_encoder(struct robot_system * rs, int32_t (*right_mot_encoder)(void *), 
+void rs_set_right_mot_encoder(struct robot_system * rs, int32_t (*right_mot_encoder)(void *),
 			      void *right_mot_encoder_param, double gain)
 {
 	uint8_t flags;
@@ -159,7 +161,7 @@ void rs_set_right_mot_encoder(struct robot_system * rs, int32_t (*right_mot_enco
 #endif
 
 /** define left external encoder function and param */
-void rs_set_left_ext_encoder(struct robot_system * rs, int32_t (*left_ext_encoder)(void *), 
+void rs_set_left_ext_encoder(struct robot_system * rs, int32_t (*left_ext_encoder)(void *),
 			     void *left_ext_encoder_param, double gain)
 {
 	uint8_t flags;
@@ -167,12 +169,16 @@ void rs_set_left_ext_encoder(struct robot_system * rs, int32_t (*left_ext_encode
 	IRQ_LOCK(flags);
 	rs->left_ext_encoder = left_ext_encoder;
 	rs->left_ext_encoder_param = left_ext_encoder_param;
+#ifdef CONFIG_MODULE_ROBOT_SYSTEM_USE_F64
 	rs->left_ext_gain = f64_from_double(gain);
+#else
+	rs->left_ext_gain = gain;
+#endif
 	IRQ_UNLOCK(flags);
 }
 
 /** define right external encoder function and param */
-void rs_set_right_ext_encoder(struct robot_system * rs, int32_t (*right_ext_encoder)(void *), 
+void rs_set_right_ext_encoder(struct robot_system * rs, int32_t (*right_ext_encoder)(void *),
 			      void *right_ext_encoder_param, double gain)
 {
 	uint8_t flags;
@@ -180,15 +186,19 @@ void rs_set_right_ext_encoder(struct robot_system * rs, int32_t (*right_ext_enco
 	IRQ_LOCK(flags);
 	rs->right_ext_encoder = right_ext_encoder;
 	rs->right_ext_encoder_param = right_ext_encoder_param;
+#ifdef CONFIG_MODULE_ROBOT_SYSTEM_USE_F64
 	rs->right_ext_gain = f64_from_double(gain);
+#else
+	rs->right_ext_gain = gain;
+#endif
 	IRQ_UNLOCK(flags);
 }
 
 /**** Virtual encoders and PWM */
 
-/** 
+/**
  * set the real pwms according to the specified angle (it also
- * depends on the last distance command sent) 
+ * depends on the last distance command sent)
  */
 void rs_set_angle(void * data, int32_t angle)
 {
@@ -204,14 +214,14 @@ void rs_set_angle(void * data, int32_t angle)
 
 	p.angle = angle;
 	rs_get_wheels_from_polar(&w, &p);
-	
+
 	safe_setpwm(rs->left_pwm, rs->left_pwm_param, w.left);
 	safe_setpwm(rs->right_pwm, rs->right_pwm_param, w.right);
 }
 
-/** 
+/**
  * set the real pwms according to the specified distance (it also
- * depends on the last angle command sent) 
+ * depends on the last angle command sent)
  */
 void rs_set_distance(void * data, int32_t distance)
 {
@@ -227,37 +237,37 @@ void rs_set_distance(void * data, int32_t distance)
 
 	p.distance = distance;
 	rs_get_wheels_from_polar(&w, &p);
-	
+
 	safe_setpwm(rs->left_pwm, rs->left_pwm_param, w.left);
 	safe_setpwm(rs->right_pwm, rs->right_pwm_param, w.right);
 }
 
-/** 
- * get the virtual angle according to real encoders value. 
+/**
+ * get the virtual angle according to real encoders value.
  */
 int32_t rs_get_angle(void * data)
 {
 	struct robot_system * rs = data;
 	int32_t angle;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	angle = rs->virtual_encoders.angle ;	
+	angle = rs->virtual_encoders.angle ;
 	IRQ_UNLOCK(flags);
 	return angle;
 }
 
-/** 
- * get the virtual distance according to real encoders value. 
+/**
+ * get the virtual distance according to real encoders value.
  */
 int32_t rs_get_distance(void * data)
 {
 	struct robot_system * rs = data;
 	int32_t distance;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	distance = rs->virtual_encoders.distance ;	
+	distance = rs->virtual_encoders.distance ;
 	IRQ_UNLOCK(flags);
 	return distance;
 }
@@ -267,9 +277,9 @@ int32_t rs_get_ext_angle(void * data)
 	struct robot_system * rs = data;
 	int32_t angle;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	angle = rs->pext_prev.angle ;	
+	angle = rs->pext_prev.angle ;
 	IRQ_UNLOCK(flags);
 	return angle;
 }
@@ -279,9 +289,9 @@ int32_t rs_get_ext_distance(void * data)
 	struct robot_system * rs = data;
 	int32_t distance;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	distance = rs->pext_prev.distance ;	
+	distance = rs->pext_prev.distance ;
 	IRQ_UNLOCK(flags);
 	return distance;
 }
@@ -291,10 +301,10 @@ int32_t rs_get_mot_angle(void * data)
 {
 	struct robot_system * rs = data;
 	int32_t angle;
-	uint8_t flags;	
+	uint8_t flags;
 
 	IRQ_LOCK(flags);
-	angle = rs->pmot_prev.angle ;	
+	angle = rs->pmot_prev.angle ;
 	IRQ_UNLOCK(flags);
 	return angle;
 }
@@ -304,9 +314,9 @@ int32_t rs_get_mot_distance(void * data)
 	struct robot_system * rs = data;
 	int32_t distance;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	distance = rs->pmot_prev.distance ;	
+	distance = rs->pmot_prev.distance ;
 	IRQ_UNLOCK(flags);
 	return distance;
 }
@@ -317,9 +327,9 @@ int32_t rs_get_ext_left(void * data)
 	struct robot_system * rs = data;
 	int32_t left;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	left = rs->wext_prev.left ;	
+	left = rs->wext_prev.left ;
 	IRQ_UNLOCK(flags);
 	return left;
 }
@@ -329,9 +339,9 @@ int32_t rs_get_ext_right(void * data)
 	struct robot_system * rs = data;
 	int32_t right;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	right = rs->wext_prev.right ;	
+	right = rs->wext_prev.right ;
 	IRQ_UNLOCK(flags);
 	return right;
 }
@@ -341,10 +351,10 @@ int32_t rs_get_mot_left(void * data)
 {
 	struct robot_system * rs = data;
 	int32_t left;
-	uint8_t flags;	
+	uint8_t flags;
 
 	IRQ_LOCK(flags);
-	left = rs->wmot_prev.left ;	
+	left = rs->wmot_prev.left ;
 	IRQ_UNLOCK(flags);
 	return left;
 }
@@ -354,9 +364,9 @@ int32_t rs_get_mot_right(void * data)
 	struct robot_system * rs = data;
 	int32_t right;
 	uint8_t flags;
-	
+
 	IRQ_LOCK(flags);
-	right = rs->wmot_prev.right ;	
+	right = rs->wmot_prev.right ;
 	IRQ_UNLOCK(flags);
 	return right;
 }
@@ -365,13 +375,13 @@ int32_t rs_get_mot_right(void * data)
 void rs_set_flags(struct robot_system * rs, uint8_t flags)
 {
 	uint8_t i_flags;
-	
+
 	IRQ_LOCK(i_flags);
 	rs->flags = flags;
 	IRQ_UNLOCK(i_flags);
 }
 
-/** 
+/**
  * Read the encoders, and update internal virtual counters. Call this
  * function is needed before reading the virtual encoders.The program
  * will decide if it the external encoders or the motor encoders are
@@ -388,7 +398,7 @@ void rs_update(void * data)
 #endif
 	int32_t delta_angle, delta_distance;
 	uint8_t flags;
-	
+
 	/* read encoders */
 	wext.left = safe_getencoder(rs->left_ext_encoder, rs->left_ext_encoder_param);
 	wext.right = safe_getencoder(rs->right_ext_encoder, rs->right_ext_encoder_param);
@@ -397,11 +407,21 @@ void rs_update(void * data)
 	wmot.left = safe_getencoder(rs->left_mot_encoder, rs->left_mot_encoder_param);
 	wmot.right = safe_getencoder(rs->right_mot_encoder, rs->right_mot_encoder_param);
 #endif
-	
+
 	/* apply gains to each wheel */
 	if (! (rs->flags & RS_IGNORE_EXT_GAIN )) {
+#ifdef CONFIG_MODULE_ROBOT_SYSTEM_USE_F64
 		wext.left = f64_msb_mul(f64_from_lsb(wext.left), rs->left_ext_gain);
 		wext.right = f64_msb_mul(f64_from_lsb(wext.right), rs->right_ext_gain);
+#else
+		double tmp;
+		tmp = wext.left;
+		tmp *= rs->left_ext_gain;
+		wext.left = tmp;
+		tmp = wext.right;
+		tmp *= rs->right_ext_gain;
+		wext.right = tmp;
+#endif
 	}
 
 #ifdef CONFIG_MODULE_ROBOT_SYSTEM_MOT_AND_EXT

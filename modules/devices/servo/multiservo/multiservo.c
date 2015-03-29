@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: multiservo.c,v 1.5.4.5 2008/03/02 17:18:16 zer0 Exp $
+ *  Revision : $Id: multiservo.c,v 1.5.4.5 2008-03-02 17:18:16 zer0 Exp $
  *
  */
 

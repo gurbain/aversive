@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: main.c,v 1.4.4.2 2007/05/23 17:18:13 zer0 Exp $
+ *  Revision : $Id: main.c,v 1.4.4.2 2007-05-23 17:18:13 zer0 Exp $
  *
  */
 
@@ -26,6 +26,10 @@
 #include <pid.h>
 #include <quadramp.h>
 #include <control_system_manager.h>
+
+#ifdef HOST_VERSION
+#include <hostsim.h>
+#endif
 
 #define MAX_SPEED 10000
 static int32_t motor_speed=0;

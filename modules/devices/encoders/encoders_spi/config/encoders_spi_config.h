@@ -15,19 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: encoders_spi_config.h,v 1.1.2.1 2009/02/20 20:24:21 zer0 Exp $
+ *  Revision : $Id: encoders_spi_config.h,v 1.1.2.1 2009-02-20 20:24:21 zer0 Exp $
  *
  */
 #ifndef _ENCODERS_SPI_CONFIG_H_
 #define _ENCODERS_SPI_CONFIG_H_
 
-#define ENCODERS_SPI_NUMBER 4
-#define ENCODERS_SPI_SS_PORT SS_PORT
-#define ENCODERS_SPI_SS_BIT  SS_BIT
+#define ENCODERS_SPI_NUMBER 4 // 4 prc monstavr a 4 encodeur? Es-ce header utile??
 
-/* see spi configuration */
-#define ENCODERS_SPI_CLK_RATE     SPI_CLK_RATE_16
-#define ENCODERS_SPI_FORMAT       SPI_FORMAT_3
-#define ENCODERS_SPI_DATA_ORDER   SPI_LSB_FIRST
 
 #endif

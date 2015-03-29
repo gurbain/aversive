@@ -15,13 +15,24 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: encoders_spi.h,v 1.1.2.1 2009/02/20 20:24:21 zer0 Exp $
+ *  Revision : $Id: encoders_spi.h,v 1.1.2.1 2009-02-20 20:24:21 zer0 Exp $
  *
  *  Olivier MATZ <zer0@droids-corp.org>
  */
 
 #ifndef _ENCODERS_SPI_H_
 #define _ENCODERS_SPI_H_
+
+#define XY   37
+#define OE   36 // Active LOW
+#define EN1  35
+#define EN2  34
+#define SEL1 33
+#define SEL2 32
+#define RSTX 31 // Active LOW
+#define RSTY 30
+
+
 
 /** 
  * Initialisation of encoders, variables

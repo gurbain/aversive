@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: adc.c,v 1.8.4.8 2009/02/27 21:37:49 zer0 Exp $
+ *  Revision : $Id: adc.c,v 1.8.4.8 2009-02-27 21:37:49 zer0 Exp $
  *
  */
 
@@ -33,7 +33,7 @@ static void (*adc_event)(int16_t) = NULL;
 
 /**
  * Initialisation of ADC internal registers
- * Can be called for a wake up after a shutdown command 
+ * Can be called for a wake up after a shutdown command
  */
 void adc_init(void)
 {
@@ -82,7 +82,12 @@ void adc_register_event(void (*f)(int16_t))
  * Interrupt function, other interrupts are disabled during its
  * execution.
  */
-SIGNAL(SIG_ADC)
+#ifndef ADC_vect
+#if defined(SIG_ADC)
+#define ADC_vect SIG_ADC
+#endif
+#endif
+SIGNAL(ADC_vect)
 {
 	int16_t result;
 
@@ -90,7 +95,7 @@ SIGNAL(SIG_ADC)
 		return;
 
 	result = ADC;
-	
+
 	/* sign extension to fill the 16 bits when negative
 	 * (for the 16 bits output format, the output is
 	 * already right.) */
@@ -98,7 +103,7 @@ SIGNAL(SIG_ADC)
 	     && !(g_adc_previous_config & ADC_MODE_16_BITS)
 	     && (result & 0x0200) )
 		result |= 0xFE00;
-	
+
 	adc_event(result);
 }
 

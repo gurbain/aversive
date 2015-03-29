@@ -17,7 +17,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: ax12.c,v 1.1.4.3 2008/12/26 13:48:37 zer0 Exp $
+ *  Revision : $Id: ax12.c,v 1.1.4.3 2008-12-26 13:48:37 zer0 Exp $
  *
  */
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: aversive.h,v 1.1.2.6 2009/05/18 12:19:51 zer0 Exp $
+ *  Revision : $Id: aversive.h,v 1.1.2.6 2009-05-18 12:19:51 zer0 Exp $
  *
  */
 
@@ -219,8 +219,7 @@ do {				     \
 #else /* HOST_VERSION */
 #define nop() do {} while(0)
 #define nothing() do {} while(0)
-#define cli() do {} while(0)
-#define sei() do {} while(0)
+#define reset() exit(1)
 #endif /* HOST_VERSION */
 
 /**

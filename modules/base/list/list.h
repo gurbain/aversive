@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: list.h,v 1.14.4.4 2007/05/23 17:18:10 zer0 Exp $
+ *  Revision : $Id: list.h,v 1.14.4.4 2007-05-23 17:18:10 zer0 Exp $
  *
  */
 

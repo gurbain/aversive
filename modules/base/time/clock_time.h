@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: time.h,v 1.3.4.2 2007/05/23 17:18:11 zer0 Exp $
+ *  Revision : $Id: time.h,v 1.3.4.2 2007-05-23 17:18:11 zer0 Exp $
  *
  */
 
@@ -31,15 +31,14 @@
  *  times)
  */
 
-#ifndef _TIME_H_
-#define _TIME_H_
+#ifndef _CLOCK_TIME_H_
+#define _CLOCK_TIME_H_
 
 #include <aversive.h>
 
 /* a 16 bit variable cannot cover one day */
 typedef int32_t seconds; 
 typedef int32_t microseconds;
-
 
 /** the time structure */
 typedef struct 

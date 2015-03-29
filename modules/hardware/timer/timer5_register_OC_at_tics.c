@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: timer5_register_OC_at_tics.c,v 1.1.2.1 2009/01/30 20:18:36 zer0 Exp $
+ *  Revision : $Id: timer5_register_OC_at_tics.c,v 1.1.2.1 2009-01-30 20:18:36 zer0 Exp $
  *
  */
 
@@ -30,15 +30,15 @@
 #include <timer_config.h>
 
 
-#if defined TIMER5A_ENABLED && defined SIG_OUTPUT_COMPARE5A
-DEFINE_REGISTER_OC_INTR_AT_TICS(5A)
+#if defined TIMER5A_ENABLED && defined TIMER5_COMPA_vect
+DEFINE_REGISTER_OC_INTR_AT_TICS(5A, TIMER5_COMPA_vect)
 #endif
 
-#if defined TIMER5B_ENABLED && defined SIG_OUTPUT_COMPARE5B
-DEFINE_REGISTER_OC_INTR_AT_TICS(5B)
+#if defined TIMER5B_ENABLED && defined TIMER5_COMPB_vect
+DEFINE_REGISTER_OC_INTR_AT_TICS(5B, TIMER5_COMPB_vect)
 #endif
 
-#if defined TIMER5C_ENABLED && defined SIG_OUTPUT_COMPARE5C
-DEFINE_REGISTER_OC_INTR_AT_TICS(5C)
+#if defined TIMER5C_ENABLED && defined TIMER5_COMPC_vect
+DEFINE_REGISTER_OC_INTR_AT_TICS(5C, TIMER5_COMPC_vect)
 #endif
 

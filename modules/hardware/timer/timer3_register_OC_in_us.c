@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: timer3_register_OC_in_us.c,v 1.1.2.2 2007/05/23 17:18:15 zer0 Exp $
+ *  Revision : $Id: timer3_register_OC_in_us.c,v 1.1.2.2 2007-05-23 17:18:15 zer0 Exp $
  *
  */
 
@@ -30,15 +30,15 @@
 #include <timer_config.h>
 
 
-#if defined TIMER3A_ENABLED && defined SIG_OUTPUT_COMPARE3A
-DEFINE_REGISTER_OC_INTR_IN_US(3,3A)
+#if defined TIMER3A_ENABLED && defined TIMER3_COMPA_vect
+DEFINE_REGISTER_OC_INTR_IN_US(3,3A,TIMER3_COMPA_vect)
 #endif
 
-#if defined TIMER3B_ENABLED && defined SIG_OUTPUT_COMPARE3B
-DEFINE_REGISTER_OC_INTR_IN_US(3,3B)
+#if defined TIMER3B_ENABLED && defined TIMER3_COMPB_vect
+DEFINE_REGISTER_OC_INTR_IN_US(3,3B,TIMER3_COMPB_vect)
 #endif
 
-#if defined TIMER3C_ENABLED && defined SIG_OUTPUT_COMPARE3C
-DEFINE_REGISTER_OC_INTR_IN_US(3,3C)
+#if defined TIMER3C_ENABLED && defined TIMER3_COMPC_vect
+DEFINE_REGISTER_OC_INTR_IN_US(3,3C,TIMER3_COMPC_vect)
 #endif
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: obstacle_avoidance.c,v 1.1.2.8 2009/05/02 10:00:35 zer0 Exp $
+ *  Revision : $Id: obstacle_avoidance.c,v 1.1.2.8 2009-05-02 10:00:35 zer0 Exp $
  *
  *  Main code and algorithm: Fabrice DESCLAUX <serpilliere@droids-corp.org>
  *  Integration in Aversive: Olivier MATZ <zer0@droids-corp.org>
@@ -164,7 +164,7 @@ void oa_dump(void)
 		printf_P(PSTR("poly #%d\r\n"), i);
 		for (j=0; j<poly->l; j++) {
 			pt = &poly->pts[j];
-			printf_P(PSTR("  pt #%d (%"PRIi32",%"PRIi32")\r\n"), j, pt->x, pt->y);
+			printf_P(PSTR("  pt #%d (%2.2f,%2.2f)\r\n"), j, pt->x, pt->y);
 		}
 	}
 }

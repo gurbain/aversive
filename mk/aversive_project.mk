@@ -69,7 +69,8 @@ ifeq ($(HOST),avr)
 #    -ahlms:  create assembler listing
 ALL_CFLAGS += -Wa,-adhlns=$(addprefix compiler_files/,$(<:.c=.$(HOST).lst))
 else
-ALL_CFLAGS +=
+ALL_CFLAGS += $(PTHREAD_CFLAGS)
+
 endif
 
 
@@ -101,18 +102,13 @@ ifeq ($(HOST),avr)
 LDFLAGS += -mmcu=$(MCU) $(PRINTF_LDFLAGS)
 LDFLAGS += -Wl,-Map=$(addprefix compiler_files/,$(TARGET).map),--cref
 else
-LDFLAGS += 
+LDFLAGS += $(PTHREAD_LDFLAGS)
 endif
 
 LDFLAGS += $(MATH_LIB)
 
 
-# AVRDUDE does not know the ATMEGA1281 for now, consider it a 128.
-ifeq ($(MCU),atmega1281)
-AVRDUDE_MCU = atmega128
-else
 AVRDUDE_MCU = $(MCU)
-endif
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).$(FORMAT_EXTENSION)
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
@@ -193,9 +189,7 @@ export AVRDUDE_PROGRAMMER
 export MCU
 export PROGRAMMER
 
-ifndef VERBOSE
-QUIET = @
-endif
+
 
 # ---------------------------------------------------------------------------
 
@@ -208,16 +202,15 @@ MSG_FLASH = Creating load file for Flash:
 MSG_EEPROM = Creating load file for EEPROM:
 MSG_EXTENDED_LISTING = Creating Extended Listing:
 MSG_SYMBOL_TABLE = Creating Symbol Table:
-MSG_LINKING = "\t[LD]\t\t"
-MSG_COMPILING = "\t[CC]\t\t"
-MSG_DEPEND = "\t[DEPEND]\t"
-MSG_PREPROC = "\t[PREPROC]\t"
-MSG_ASSEMBLING = "\t[AS]\t\t"
+MSG_LINKING = Linking:
+MSG_COMPILING = Compiling:
+MSG_PREPROC = Preprocessing:
+MSG_ASSEMBLING = Assembling:
 MSG_CLEANING = Cleaning project:
 MSG_MD5_BEFORE = Processing MD5:
 MSG_MD5_AFTER = Processing MD5:
 MSG_DEPCLEAN = Cleaning deps:
-MSG_MODULE = "------- [MODULE]\t"
+MSG_MODULE = ------ Compiling Module:
 
 
 # ---------------------------------------------------------------------------
@@ -238,10 +231,13 @@ export CFLAGS EXTRAINCDIRS
 
 
 # Default target.
-all: gccversion sizebefore md5sumbefore modules $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
+all: compiler_files gccversion sizebefore md5sumbefore modules $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
 
 # only compile project files
-project: gccversion sizebefore md5sumbefore $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
+project: compiler_files gccversion sizebefore md5sumbefore $(OUTPUT) $(OTHER_OUTPUT) sizeafter md5sumafter
+
+compiler_files:
+	@mkdir -p compiler_files
 
 
 # ------ Compilation/link/assemble targets
@@ -252,38 +248,38 @@ modules: $(MODULES)
 
 $(MODULES):
 	@echo
-	@echo -e $(MSG_MODULE) $@
+	@echo $(MSG_MODULE) $@
 	@$(MAKE) VPATH=$(ABS_AVERSIVE_DIR)/modules/$@ -f $(AVERSIVE_DIR)/modules/$@/Makefile
 
 # Link: create ELF output file from object files.
 $(OUTPUT): $(PREPROC) $(OBJ) $(MODULES_LIB)
-	@echo -e $(MSG_LINKING) $@
-	$(QUIET)$(CC) $(OBJ) $(MODULES_LIB) --output $@ $(LDFLAGS)
+	@echo
+	@echo $(MSG_LINKING) $@
+	$(CC) $(OBJ) $(MODULES_LIB) --output $@ $(LDFLAGS)
 
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).preproc : %.c
-	@mkdir -p $(dir $@)
-	@echo -e $(MSG_PREPROC) $@
-	$(QUIET)$(CC) -E $(ALL_CFLAGS) $< -o $@
+	@echo
+	@echo $(MSG_PREPROC) $<
+	$(CC) -E $(ALL_CFLAGS) $< -o $@
 
 # Compile: create object files from C source files.
 compiler_files/%.$(HOST).o : %.c
-	@mkdir -p $(dir $@)
-	@echo -e $(MSG_COMPILING) $@
-	$(QUIET)$(CC) -c $(ALL_CFLAGS) $(ABS_PROJECT_DIR)/$< -o $@
+	@echo
+	@echo $(MSG_COMPILING) $<
+	$(CC) -c $(ALL_CFLAGS) $(ABS_PROJECT_DIR)/$< -o $@
 
 
 # Compile: create assembler files from C source files.
 compiler_files/%.$(HOST).s : %.c
-	@mkdir -p $(dir $@)
-	$(QUIET)$(CC) -S $(ALL_CFLAGS) $< -o $@
+	$(CC) -S $(ALL_CFLAGS) $< -o $@
 
 
 # Assemble: create object files from assembler source files.
 compiler_files/%.$(HOST).o : %.S
-	@mkdir -p $(dir $@)
-	@echo -e $(MSG_ASSEMBLING) $@
+	@echo 
+	@echo $(MSG_ASSEMBLING) $<
 	$(CC) -c $(ASFLAGS) $< -o $@
 
 
@@ -292,23 +288,25 @@ compiler_files/%.$(HOST).o : %.S
 
 # Create final output files (.hex, .eep) from ELF output file.
 %.$(FORMAT_EXTENSION): %.elf
+	@echo
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
 
 %.eep: %.elf
+	@echo
 	@echo $(MSG_EEPROM) $@
 	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
 	--change-section-lma .eeprom=0 -O $(FORMAT) $< $@
 
 # Create extended listing file from ELF output file.
 compiler_files/%.lss: %.elf
-	@mkdir -p $(dir $@)
+	@echo
 	@echo $(MSG_EXTENDED_LISTING) $@
 	$(OBJDUMP) -h -S $< > $@
 
 # Create a symbol table from ELF output file.
 compiler_files/%.sym: %.elf
-	@mkdir -p $(dir $@)
+	@echo
 	@echo $(MSG_SYMBOL_TABLE) $@
 	$(NM) -n $< > $@
 
@@ -447,7 +445,7 @@ dep_list:
 
 # Automatically generate C source code dependencies. 
 compiler_files/%.$(HOST).d: %.c
-	@mkdir -p $(dir $@) ; \
+	@mkdir -p compiler_files ; \
 	error=0; \
 	for conf_file in .config autoconf.h .aversive_conf; do \
 	  if [ ! -f $$conf_file ]; then \
@@ -468,7 +466,7 @@ compiler_files/%.$(HOST).d: %.c
 	  echo "Missing config files, please run make menuconfig or make config"; \
 	  exit 1; \
 	fi
-	@echo -e $(MSG_DEPEND) $<
+	@echo Generating $@
 	@set -e; rm -f $@; \
 	$(CC) -M $(CFLAGS) $< > $@.$$$$; \
 	sed 's,\($*\)\.o[ :]*,compiler_files/\1.$(HOST).o $@ : ,g' < $@.$$$$ > $@; \

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: scheduler_config.h,v 1.1.2.1 2007/12/06 08:58:00 zer0 Exp $
+ *  Revision : $Id: scheduler_config.h,v 1.1.2.1 2007-12-06 08:58:00 zer0 Exp $
  *
  */
 

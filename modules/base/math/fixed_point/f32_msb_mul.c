@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: f32_msb_mul.c,v 1.5.4.1 2006/11/26 21:06:01 zer0 Exp $
+ *  Revision : $Id: f32_msb_mul.c,v 1.5.4.1 2006-11-26 21:06:01 zer0 Exp $
  *
  */
 

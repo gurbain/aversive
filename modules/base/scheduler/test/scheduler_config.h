@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: scheduler_config.h,v 1.4.10.7 2007/11/27 23:16:15 zer0 Exp $
+ *  Revision : $Id: scheduler_config.h,v 1.4.10.7 2007-11-27 23:16:15 zer0 Exp $
  *
  */
 
@@ -56,6 +56,7 @@
    define the period here */
 #ifdef CONFIG_MODULE_SCHEDULER_MANUAL
 
+/* scheduler period in us */
 #define SCHEDULER_UNIT_FLOAT 1000.0
 #define SCHEDULER_UNIT 1000UL
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: time.c,v 1.4.4.5 2009/04/24 19:26:37 zer0 Exp $
+ *  Revision : $Id: time.c,v 1.4.4.5 2009-04-24 19:26:37 zer0 Exp $
  *
  */
 
@@ -38,7 +38,7 @@
 #include <stdlib.h>
 #include <scheduler.h>
 
-#include <time.h>
+#include <clock_time.h>
 #include <time_config.h>
 
 /**********************************************************/

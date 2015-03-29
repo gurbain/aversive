@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: encoders_microb.c,v 1.6.4.3 2008/01/09 22:27:19 zer0 Exp $
+ *  Revision : $Id: encoders_microb.c,v 1.6.4.3 2008-01-09 22:27:19 zer0 Exp $
  *
  */
 

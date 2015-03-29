@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: rdline.c,v 1.1.2.9 2009/02/27 21:41:31 zer0 Exp $
+ *  Revision : $Id: rdline.c,v 1.1.2.9 2009-02-27 21:41:31 zer0 Exp $
  *
  *
  */
@@ -32,9 +32,9 @@
 #include <cirbuf.h>
 #include "rdline.h"
 
-static void rdline_puts_P(struct rdline * rdl, const prog_char * buf);
+static void rdline_puts_P(struct rdline * rdl, const char * buf);
 static void rdline_miniprintf_P(struct rdline * rdl, 
-				const prog_char * buf, uint8_t val);
+				const char * buf, uint8_t val);
 
 #ifdef CONFIG_MODULE_RDLINE_HISTORY
 static void rdline_remove_old_history_item(struct rdline * rdl);
@@ -52,7 +52,7 @@ void rdline_init(struct rdline *rdl,
 	rdl->validate = validate;
 	rdl->complete = complete;
 	rdl->write_char = write_char;
-	rdl->status = RDLINE_INIT;
+	rdl->status = RDLINE_STOPPED;
 #ifdef CONFIG_MODULE_RDLINE_HISTORY
 	cirbuf_init(&rdl->history, rdl->history_buf, 0, RDLINE_HISTORY_BUF_SIZE);
 #endif /* CONFIG_MODULE_RDLINE_HISTORY */
@@ -83,7 +83,7 @@ rdline_newline(struct rdline * rdl, const char * prompt)
 void 
 rdline_stop(struct rdline * rdl)
 {
-	rdl->status = RDLINE_INIT;
+	rdl->status = RDLINE_STOPPED;
 }
 
 void
@@ -351,7 +351,6 @@ rdline_char_in(struct rdline * rdl, char c)
 		case KEY_RETURN:
 		case KEY_RETURN2:
 			rdline_get_buffer(rdl);
-			rdl->status = RDLINE_INIT;
 			rdline_puts_P(rdl, PSTR("\r\n"));
 #ifdef CONFIG_MODULE_RDLINE_HISTORY
 			if (rdl->history_cur_line != -1)
@@ -543,7 +542,7 @@ char * rdline_get_history_item(struct rdline * rdl, uint8_t i) {return NULL;}
 /* STATIC USEFUL FUNCS */
 
 static void 
-rdline_puts_P(struct rdline * rdl, const prog_char * buf)
+rdline_puts_P(struct rdline * rdl, const char * buf)
 {
 	char c;
 	while ( (c=pgm_read_byte(buf++)) != '\0' ) {
@@ -553,7 +552,7 @@ rdline_puts_P(struct rdline * rdl, const prog_char * buf)
 
 /* a very very basic printf with one arg and one format 'u' */
 static void 
-rdline_miniprintf_P(struct rdline * rdl, const prog_char * buf, uint8_t val)
+rdline_miniprintf_P(struct rdline * rdl, const char * buf, uint8_t val)
 {
 	char c, started=0, div=100;
 

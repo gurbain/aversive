@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: mf2_server.h,v 1.1.2.2 2007/03/12 22:34:31 zer0 Exp $
+ *  Revision : $Id: mf2_server.h,v 1.1.2.2 2007-03-12 22:34:31 zer0 Exp $
  *
  */
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: uart_setconf.c,v 1.1.2.3 2009/01/03 16:24:50 zer0 Exp $
+ *  Revision : $Id: uart_setconf.c,v 1.1.2.3 2009-01-03 16:24:50 zer0 Exp $
  *
  */
 
@@ -98,10 +98,10 @@ static int8_t uart_set_nbits_parity(int8_t num, struct uart_config * u)
 {
 	/* number of bit in the frame */
 	if (u->nbits == 8)
-		*uart_regs[num].ucsrb &= ~(1 << CHR9);
+		*uart_regs[num].ucsrb &= ~(1 << UCSZ2);
 #ifdef CONFIG_MODULE_UART_9BITS
 	else if (u->nbits == 9)
-		*uart_regs[num].ucsrb |= (1 << CHR9);
+		*uart_regs[num].ucsrb |= (1 << UCSZ2);
 #endif
 	else
 		return ENOTSUP;

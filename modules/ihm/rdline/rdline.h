@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: rdline.h,v 1.1.2.6 2009/02/27 21:41:31 zer0 Exp $
+ *  Revision : $Id: rdline.h,v 1.1.2.6 2009-02-27 21:41:31 zer0 Exp $
  *
  *
  */
@@ -64,7 +64,7 @@
 #define RDLINE_HISTORY_MAX_LINE 64
 
 enum rdline_status {
-	RDLINE_INIT,
+	RDLINE_STOPPED,
 	RDLINE_RUNNING,
 };
 

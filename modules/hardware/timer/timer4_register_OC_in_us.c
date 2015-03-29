@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: timer4_register_OC_in_us.c,v 1.1.2.1 2009/01/30 20:18:36 zer0 Exp $
+ *  Revision : $Id: timer4_register_OC_in_us.c,v 1.1.2.1 2009-01-30 20:18:36 zer0 Exp $
  *
  */
 
@@ -30,15 +30,15 @@
 #include <timer_config.h>
 
 
-#if defined TIMER4A_ENABLED && defined SIG_OUTPUT_COMPARE4A
-DEFINE_REGISTER_OC_INTR_IN_US(4,4A)
+#if defined TIMER4A_ENABLED && defined TIMER4_COMPA_vect
+DEFINE_REGISTER_OC_INTR_IN_US(4,4A,TIMER4_COMPA_vect)
 #endif
 
-#if defined TIMER4B_ENABLED && defined SIG_OUTPUT_COMPARE4B
-DEFINE_REGISTER_OC_INTR_IN_US(4,4B)
+#if defined TIMER4B_ENABLED && defined TIMER4_COMPB_vect
+DEFINE_REGISTER_OC_INTR_IN_US(4,4B,TIMER4_COMPB_vect)
 #endif
 
-#if defined TIMER4C_ENABLED && defined SIG_OUTPUT_COMPARE4C
-DEFINE_REGISTER_OC_INTR_IN_US(4,4C)
+#if defined TIMER4C_ENABLED && defined TIMER4_COMPC_vect
+DEFINE_REGISTER_OC_INTR_IN_US(4,4C,TIMER4_COMPC_vect)
 #endif
 

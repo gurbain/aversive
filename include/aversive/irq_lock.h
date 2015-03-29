@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: irq_lock.h,v 1.1.2.1 2007/05/23 17:18:09 zer0 Exp $
+ *  Revision : $Id: irq_lock.h,v 1.1.2.1 2007-05-23 17:18:09 zer0 Exp $
  *
  */
 
@@ -42,10 +42,22 @@
 
 #ifdef HOST_VERSION
 
+#ifdef CONFIG_MODULE_HOSTSIM
+#include <hostsim.h>
+
 /* we must use 'flags' to avoid a warning */
-#define IRQ_UNLOCK(flags) flags=0
-#define IRQ_LOCK(flags) flags=0
-#define GLOBAL_IRQ_ARE_MASKED() (1)
+#define cli() do { hostsim_cli(); } while(0)
+#define sei() do { hostsim_sei(); } while(0)
+#define IRQ_LOCK(flags) do { flags = hostsim_irq_save(); } while(0)
+#define IRQ_UNLOCK(flags) do { hostsim_irq_restore(flags); } while(0)
+#define GLOBAL_IRQ_ARE_MASKED() hostsim_islocked()
+#else
+#define cli() do {} while(0)
+#define sei() do {} while(0)
+#define IRQ_LOCK(flags) do { (void)flags; } while(0)
+#define IRQ_UNLOCK(flags) do { (void)flags; } while(0)
+#define GLOBAL_IRQ_ARE_MASKED() (0)
+#endif /* CONFIG_MODULE_HOSTSIM */
 
 #else
 

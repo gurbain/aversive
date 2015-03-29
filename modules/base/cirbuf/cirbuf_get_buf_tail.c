@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: cirbuf_get_buf_tail.c,v 1.1.2.3 2007/09/12 17:52:20 zer0 Exp $
+ *  Revision : $Id: cirbuf_get_buf_tail.c,v 1.1.2.3 2007-09-12 17:52:20 zer0 Exp $
  *
  */
 

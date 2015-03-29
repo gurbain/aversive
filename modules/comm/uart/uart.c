@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: uart.c,v 1.33.4.7 2009/01/23 23:08:42 zer0 Exp $
+ *  Revision : $Id: uart.c,v 1.33.4.7 2009-01-23 23:08:42 zer0 Exp $
  *
  */
 
@@ -84,37 +84,55 @@ const struct regs uart_regs[UART_HW_NUM] = {
  * there is no new data in the transmit buffer.
  */
 #ifdef UART0_COMPILE
-#ifndef SIG_UART0_DATA
-#define SIG_UART0_DATA SIG_USART0_DATA
+#ifndef USART0_UDRE_vect
+#if defined(USART_UDRE_vect)
+#define USART0_UDRE_vect USART_UDRE_vect
+#elif defined(SIG_USART0_DATA)
+#define USART0_UDRE_vect SIG_USART0_DATA
+#elif defined(SIG_UART0_DATA)
+#define USART0_UDRE_vect SIG_UART0_DATA
 #endif
-SIGNAL(SIG_UART0_DATA)
+#endif
+SIGNAL(USART0_UDRE_vect)
 {
 	uart_send_next_char(0);
 }
 #endif
 #ifdef UART1_COMPILE
-#ifndef SIG_UART1_DATA
-#define SIG_UART1_DATA SIG_USART1_DATA
+#ifndef USART1_UDRE_vect
+#if defined(SIG_USART1_DATA)
+#define USART1_UDRE_vect SIG_USART1_DATA
+#elif defined(SIG_UART1_DATA)
+#define USART1_UDRE_vect SIG_UART1_DATA
 #endif
-SIGNAL(SIG_UART1_DATA)
+#endif
+SIGNAL(USART1_UDRE_vect)
 {
 	uart_send_next_char(1);
 }
 #endif
 #ifdef UART2_COMPILE
-#ifndef SIG_UART2_DATA
-#define SIG_UART2_DATA SIG_USART2_DATA
+#ifndef USART2_UDRE_vect
+#if defined(SIG_USART2_DATA)
+#define USART2_UDRE_vect SIG_USART2_DATA
+#elif defined(SIG_UART2_DATA)
+#define USART2_UDRE_vect SIG_UART2_DATA
 #endif
-SIGNAL(SIG_UART2_DATA)
+#endif
+SIGNAL(USART2_UDRE_vect)
 {
 	uart_send_next_char(2);
 }
 #endif
 #ifdef UART3_COMPILE
-#ifndef SIG_UART3_DATA
-#define SIG_UART3_DATA SIG_USART3_DATA
+#ifndef USART3_UDRE_vect
+#if defined(SIG_USART3_DATA)
+#define USART3_UDRE_vect SIG_USART3_DATA
+#elif defined(SIG_UART3_DATA)
+#define USART3_UDRE_vect SIG_UART3_DATA
 #endif
-SIGNAL(SIG_UART3_DATA)
+#endif
+SIGNAL(USART3_UDRE_vect)
 {
 	uart_send_next_char(3);
 }
@@ -127,37 +145,73 @@ static void uart_recv_next_char(uint8_t num);
  * a new unread data in the reception buffer.
  */
 #ifdef UART0_COMPILE
-#ifndef SIG_UART0_RECV
-#define SIG_UART0_RECV SIG_USART0_RECV
+#ifndef USART0_RXC_vect
+#if defined(USART_RXC_vect)
+#define USART0_RXC_vect USART_RXC_vect
+#elif defined(USART_RX_vect)
+#define USART0_RXC_vect USART_RX_vect
+#elif defined(USART0_RX_vect)
+#define USART0_RXC_vect USART0_RX_vect
+#else
+#if defined(SIG_USART0_RECV)
+#define USART0_RXC_vect SIG_USART0_RECV
+#elif defined(SIG_UART0_RECV)
+#define USART0_RXC_vect SIG_UART0_RECV
 #endif
-SIGNAL(SIG_UART0_RECV)
+#endif
+#endif
+SIGNAL(USART0_RXC_vect)
 {
 	uart_recv_next_char(0);
 }
 #endif
 #ifdef UART1_COMPILE
-#ifndef SIG_UART1_RECV
-#define SIG_UART1_RECV SIG_USART1_RECV
+#ifndef USART1_RXC_vect
+#if defined(USART1_RX_vect)
+#define USART1_RXC_vect USART1_RX_vect
+#else
+#if defined(SIG_USART1_RECV)
+#define USART1_RXC_vect SIG_USART1_RECV
+#elif defined(SIG_UART1_RECV)
+#define USART1_RXC_vect SIG_UART1_RECV
 #endif
-SIGNAL(SIG_UART1_RECV)
+#endif
+#endif
+SIGNAL(USART1_RXC_vect)
 {
 	uart_recv_next_char(1);
 }
 #endif
 #ifdef UART2_COMPILE
-#ifndef SIG_UART2_RECV
-#define SIG_UART2_RECV SIG_USART2_RECV
+#ifndef USART2_RXC_vect
+#if defined(USART2_RX_vect)
+#define USART2_RXC_vect USART2_RX_vect
+#else
+#if defined(SIG_USART2_RECV)
+#define USART2_RXC_vect SIG_USART2_RECV
+#elif defined(SIG_UART2_RECV)
+#define USART2_RXC_vect SIG_UART2_RECV
 #endif
-SIGNAL(SIG_UART2_RECV)
+#endif
+#endif
+SIGNAL(USART2_RXC_vect)
 {
 	uart_recv_next_char(2);
 }
 #endif
 #ifdef UART3_COMPILE
-#ifndef SIG_UART3_RECV
-#define SIG_UART3_RECV SIG_USART3_RECV
+#ifndef USART3_RXC_vect
+#if defined(USART3_RX_vect)
+#define USART3_RXC_vect USART3_RX_vect
+#else
+#if defined(SIG_USART3_RECV)
+#define USART3_RX_vect SIG_USART3_RECV
+#elif defined(SIG_UART3_RECV)
+#define USART3_RX_vect SIG_UART3_RECV
 #endif
-SIGNAL(SIG_UART3_RECV)
+#endif
+#endif
+SIGNAL(USART3_RXC_vect)
 {
 	uart_recv_next_char(3);
 }

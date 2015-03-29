@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: vt100.h,v 1.1.2.2 2009/04/07 20:01:16 zer0 Exp $
+ *  Revision : $Id: vt100.h,v 1.1.2.2 2009-04-07 20:01:16 zer0 Exp $
  *
  *
  */
@@ -72,7 +72,7 @@
 #define KEY_WRIGHT 20
 #define KEY_HELP 21
 
-extern const prog_char * vt100_commands[] PROGMEM;
+extern const char * const PROGMEM vt100_commands[];
 
 enum vt100_parser_state {
 	VT100_INIT,

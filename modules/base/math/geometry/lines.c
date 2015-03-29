@@ -1,3 +1,24 @@
+/*
+ *  Copyright Droids Corporation (2009)
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  Revision : $Id: f16.h,v 1.6.4.3 2008-05-10 15:06:26 zer0 Exp $
+ *
+ */
+
 #include <aversive.h>
 
 #include <stdint.h>
@@ -25,24 +46,24 @@
  *  p argument is the crossing point coordinates (dummy for 0 or 2
  *  result)
  */
-uint8_t 
+uint8_t
 intersect_line(const line_t *l1, const line_t *l2, point_t *p)
-{	
+{
 	double tmp1, tmp2;
 
-	debug_printf("l1:%2.2f,%2.2f,%2.2f l2:%2.2f,%2.2f,%2.2f\n", 
+	debug_printf("l1:%2.2f,%2.2f,%2.2f l2:%2.2f,%2.2f,%2.2f\n",
 		     l1->a, l1->b, l1->c, l2->a, l2->b, l2->c);
 	/* if dummy lines */
 	if ((l1->a == 0 && l1->b == 0) || (l2->a == 0 && l2->b == 0))
 		return 0;
-	
+
 	if (l1->a == 0) {
 		if (l2->a == 0) {
 			if (l1->b*l2->c == l2->b*l1->c)
 				return 2;
 			return 0;
 		}
-		
+
 		/*       by  + c  = 0
 		 * a'x + b'y + c' = 0 */
 		/*
@@ -53,7 +74,7 @@ intersect_line(const line_t *l1, const line_t *l2, point_t *p)
 		p->x = -(l2->b*(-l1->c) + l2->c*l1->b)/(l2->a*l1->b);
 		return 1;
 	}
-	
+
 	if (l1->b == 0) {
 		if (l2->b == 0) {
 			if (l1->a*l2->c == l2->a*l1->c)
@@ -97,12 +118,12 @@ void pts2line(const point_t *p1, const point_t *p2, line_t *l)
 	p1y = p1->y;
 	p2x = p2->x;
 	p2y = p2->y;
-	
+
 
 	l->a = -(p2y - p1y);
 	l->b =  (p2x - p1x);
 	l->c = -(l->a * p1x + l->b * p1y);
-  
+
 	debug_printf("%s: %2.2f, %2.2f, %2.2f\r\n",
 		     __FUNCTION__, l->a, l->b, l->c);
 }
@@ -124,16 +145,16 @@ void proj_pt_line(const point_t * p, const line_t * l, point_t * p_out)
 
 /* return values:
  *  0 dont cross
- *  1 cross 
+ *  1 cross
  *  2 cross on point
  *  3 parallel and one point in
  *
  *  p argument is the crossing point coordinates (dummy for 0 1 or 3
  *  result)
  */
-uint8_t 
-intersect_segment(const point_t *s1, const point_t *s2, 
-		  const point_t *t1, const point_t *t2, 
+uint8_t
+intersect_segment(const point_t *s1, const point_t *s2,
+		  const point_t *t1, const point_t *t2,
 		  point_t *p)
 {
 	line_t l1, l2;
@@ -189,7 +210,7 @@ intersect_segment(const point_t *s1, const point_t *s2,
 		*p = *s2;
 		return 2;
 	}
-	
+
 	debug_printf("px=%" PRIi32 " py=%" PRIi32 "\n", p->x, p->y);
 
 	/* Consider as parallel if intersection is too far */
@@ -220,4 +241,9 @@ intersect_segment(const point_t *s1, const point_t *s2,
 
 	return 1;
 
+}
+
+void line_translate(line_t *l, vect_t *v)
+{
+	l->c -= (l->a * v->x + l->b * v->y);
 }

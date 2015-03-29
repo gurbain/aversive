@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: control_system_manager.h,v 1.7.4.5 2008/03/02 17:18:34 zer0 Exp $
+ *  Revision : $Id: control_system_manager.h,v 1.7.4.5 2008-03-02 17:18:34 zer0 Exp $
  *
  */
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: timer_config.h,v 1.1.2.3 2006/12/04 23:48:22 zer0 Exp $
+ *  Revision : $Id: timer_config.h,v 1.1.2.3 2006-12-04 23:48:22 zer0 Exp $
  *
  */
 

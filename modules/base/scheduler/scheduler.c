@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: scheduler.c,v 1.9.4.6 2009/11/08 17:33:14 zer0 Exp $
+ *  Revision : $Id: scheduler.c,v 1.9.4.6 2009-11-08 17:33:14 zer0 Exp $
  *
  */
 
@@ -61,25 +61,13 @@ void scheduler_init(void)
 
 
 #ifdef CONFIG_MODULE_SCHEDULER_TIMER0
-SIGNAL(SIG_OVERFLOW0)
+#ifndef TIMER0_OVF_vect
+#if defined(SIG_OVERFLOW0)
+#define TIMER0_OVF_vect SIG_OVERFLOW0
+#endif
+#endif
+SIGNAL(TIMER0_OVF_vect)
 {
 	scheduler_interrupt();
 }
 #endif /* CONFIG_MODULE_SCHEDULER_USE_TIMERS */
-
-
-void scheduler_stats_dump(void)
-{
-#ifdef CONFIG_MODULE_SCHEDULER_STATS
-	uint8_t i;
-
-	printf_P(PSTR("alloc_fails: %"PRIu32"\r\n"), sched_stats.alloc_fails);
-	printf_P(PSTR("add_event: %"PRIu32"\r\n"), sched_stats.add_event);
-	printf_P(PSTR("del_event: %"PRIu32"\r\n"), sched_stats.del_event);
-	printf_P(PSTR("max_stacking: %"PRIu32"\r\n"), sched_stats.max_stacking);
-	for (i=0; i<SCHEDULER_NB_MAX_EVENT; i++) {
-		printf_P(PSTR("task_delayed[%d]: %"PRIu32"\r\n"), i,
-			 sched_stats.task_delayed[i]);
-	}
-#endif /* CONFIG_MODULE_SCHEDULER_STATS */
-}

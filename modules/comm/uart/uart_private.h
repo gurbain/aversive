@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: uart_private.h,v 1.1.2.5 2009/01/03 16:24:50 zer0 Exp $
+ *  Revision : $Id: uart_private.h,v 1.1.2.5 2009-01-03 16:24:50 zer0 Exp $
  *
  */
 
@@ -46,12 +46,6 @@ const struct regs uart_regs[UART_HW_NUM];
 
 typedef void (event)(char);
 typedef void (event_9bits)(int);
-
-/** The emission fifo of uart */
-extern struct cirbuf g_tx_fifo[UART_HW_NUM];
-
-/** The reception fifo of uart  */
-extern struct cirbuf g_rx_fifo[UART_HW_NUM];
 
 extern event *rx_event[UART_HW_NUM];
 extern event *tx_event[UART_HW_NUM];

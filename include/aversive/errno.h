@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: errno.h,v 1.1.2.2 2009/01/23 23:05:39 zer0 Exp $
+ *  Revision : $Id: errno.h,v 1.1.2.2 2009-01-23 23:05:39 zer0 Exp $
  *
  */
 
@@ -27,13 +27,14 @@
 #ifndef _AVERSIVE_ERRNO_H_
 #define _AVERSIVE_ERRNO_H_
 
+/** No error */
+#define ESUCCESS 0
+
 #ifndef HOST_VERSION
 
 /* from avr-libc, does not define a lots of errors */
 #include <errno.h>
 
-/** No error */
-#define ESUCCESS 0
 /** Operation not permitted */
 #define EPERM    1
 /** No such file or directory */

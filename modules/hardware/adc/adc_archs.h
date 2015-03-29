@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: adc_archs.h,v 1.4.4.4 2009/02/27 21:37:49 zer0 Exp $
+ *  Revision : $Id: adc_archs.h,v 1.4.4.4 2009-02-27 21:37:49 zer0 Exp $
  *
  */
 #ifndef _ADC_ARCHS_

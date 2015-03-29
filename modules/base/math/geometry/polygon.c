@@ -1,3 +1,24 @@
+/*
+ *  Copyright Droids Corporation (2009)
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  Revision : $Id: f16.h,v 1.6.4.3 2008-05-10 15:06:26 zer0 Exp $
+ *
+ */
+
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdlib.h>
@@ -293,8 +314,8 @@ calc_rays(poly_t *polys, uint8_t npolys, uint8_t *rays)
  * possiblity path: If we have 3 checpoint aligned in a path (say A,
  * B, C) the algorithm will prefer (A, C) instead of (A, B, C) */
 void 
-calc_rays_weight(poly_t *polys, uint8_t npolys, uint8_t *rays, 
-		 uint8_t ray_n, uint16_t *weight)
+calc_rays_weight(poly_t *polys, __attribute__((unused)) uint8_t npolys,
+		 uint8_t *rays, uint8_t ray_n, uint16_t *weight)
 {
 	uint8_t i;
 	vect_t v;

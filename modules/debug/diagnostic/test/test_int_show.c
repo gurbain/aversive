@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: test_int_show.c,v 1.3.4.2 2007/05/23 17:18:12 zer0 Exp $
+ *  Revision : $Id: test_int_show.c,v 1.3.4.2 2007-05-23 17:18:12 zer0 Exp $
  *
  */
 
@@ -53,9 +53,9 @@ void interrupt(void)
   
   // prints the string
   if (buf[buf_index] == 0)
-    uart0_send(' ');
+    uart_send(0, ' ');
   else
-    uart0_send(buf[buf_index++]);
+    uart_send(0, buf[buf_index++]);
 
 }
 
@@ -77,7 +77,7 @@ int test_int_show(void)
   wait_ms(500);
 
   // should be replaced by the scheduler
-  uart0_register_tx_event((void *) interrupt);
+  uart_register_tx_event(0, (void *) interrupt);
 
   // start characters
   printf("\n");

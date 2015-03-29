@@ -1,19 +1,33 @@
+MAKE = make -s
 TARGET = main
 
 # Aversive root directory
 AVERSIVE_DIR = ../../../..
 
-# List C source files here. (C dependencies are automatically generated.)
 SRC = $(TARGET).c
 
-# List Assembler source files here.
-# Make them always end in a capital .S.  Files ending in a lowercase .s
-# will not be considered source files but generated files (assembler
-# output from the compiler), and will be deleted upon "make clean"!
-# Even though the DOS/Win* filesystem matches both .s and .S the same,
-# it will preserve the spelling of the filenames, and gcc itself does
-# care about how the name is spelled on its command-line.
-ASRC = 
+
+ASRC =
+
+CFLAGS += -I./config
+CFLAGS += -Wall -DHOST_AVR
+CFLAGS += -g -mmcu=$(MCU) -Wall -Wstrict-prototypes -Os -mcall-prologues -Wno-deprecated-declarations -D__PROG_TYPES_COMPAT__
+#CFLAGS += -Werror
+#CFLAGS += -DHOMOLOGATION
+
+# link option
+LDFLAGS = -T ../common/avr6.x
+
+########################################
 
 -include .aversive_conf
 include $(AVERSIVE_DIR)/mk/aversive_project.mk
+
+AVRDUDE_DELAY=50
+
+prog_flash: $(TARGET).$(FORMAT_EXTENSION) $(TARGET).eep
+	$(AVRDUDE) -D -V $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+
+prog_eeprom:
+
+prog_fuse:

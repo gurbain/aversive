@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: uart_errors.h,v 1.5.6.1 2006/11/26 21:06:02 zer0 Exp $
+ *  Revision : $Id: uart_errors.h,v 1.5.6.1 2006-11-26 21:06:02 zer0 Exp $
  *
  */
 

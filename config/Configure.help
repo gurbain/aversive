@@ -50,6 +50,13 @@ CONFIG_MODULE_VECT2
   This module provides functions for converting 2D vectors from 
   polar to cartesian and vice versa.
 
+CONFIG_MODULE_HOSTSIM
+  AVR simulator. This code is used on host (PC for instance) to
+  generate a signal that will call other aversive modules like
+  scheduler or uart. The goal is to simulate the behaviour of
+  hardware interrupts in a unix application. This has no effect
+  when compiling for AVR.
+
 
 CONFIG_MODULE_SCHEDULER
   The 'scheduler' module is NOT a scheduler in the same way than in
@@ -63,13 +70,21 @@ CONFIG_MODULE_SCHEDULER_CREATE_CONFIG
   Create a scheduler_config.h file if it does not exist, with a default
   configuration.
 
-CONFIG_MODULE_SCHEDULER_TIMER0
+CONFIG_MODULE_SCHEDULER_USE_TIMERS
   Use either the hardware/timer module, the timer0 or a manual call 
   for the to call the scheduler. The generic timer module support 
   many archs and timers. If you don't enable it, you must use TIMER0 
   overflow interrupt, and only some AVR are supported, or you should
   can call the scheduler manually. In this case, the SCHEDULER_UNIT 
   macro has to be defined in configuration file.
+
+
+CONFIG_MODULE_CALLOUT
+  The 'callout' module is another timer manager that aims to replace the
+  scheduler module. The management of timers can be done either from an
+  asynchronous interruption or from the main program. This module is
+  able to handle priorities between timers and allow to reschedule
+  a timer later if its priority is too low.
 
 
 CONFIG_TIME
@@ -185,6 +200,16 @@ CONFIG_MODULE_CC2420
   This radio chip is IEEE 802.15.4 compliant and is widely used
   in wireless sensors.
   This modules requires SPI to be activated.
+
+CONFIG_MODULE_XBEE
+  This modules implements the protocol to use a xbee radio chip.
+  It currently only supports xbee868.
+
+CONFIG_MODULE_XBEE_STATS
+  Enable xbee statistics (takes ~100 bytes per device).
+
+CONFIG_MODULE_XBEE_ATCMD_HELP
+  Embed help strings of AT commands in program memory.
 
 CONFIG_MODULE_MENU
   The menu module provides some helpers to create a human-machine

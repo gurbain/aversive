@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: wait.h,v 1.1.2.1 2007/05/23 17:18:09 zer0 Exp $
+ *  Revision : $Id: wait.h,v 1.1.2.1 2007-05-23 17:18:09 zer0 Exp $
  *
  */
 
@@ -33,9 +33,11 @@
 
 #ifdef HOST_VERSION
 
-#define wait_3cyc(n) do {} while(0)
-#define wait_4cyc(n) do {} while(0)
-#define wait_ms(n) do {} while(0)
+#include <unistd.h>
+
+#define wait_3cyc(n) do { volatile int a = 0; a++; } while (0)
+#define wait_4cyc(n) do { volatile int a = 0; a++; } while (0)
+#define wait_ms(n) host_wait_ms(n)
 
 #else /* HOST_VERSION */
 

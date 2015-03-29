@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: angle_distance.h,v 1.3.4.3 2007/06/17 21:23:41 zer0 Exp $
+ *  Revision : $Id: angle_distance.h,v 1.3.4.3 2007-06-17 21:23:41 zer0 Exp $
  *
  */
 

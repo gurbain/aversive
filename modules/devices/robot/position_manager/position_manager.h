@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: position_manager.h,v 1.5.4.4 2009/05/18 12:27:26 zer0 Exp $
+ *  Revision : $Id: position_manager.h,v 1.5.4.4 2009-05-18 12:27:26 zer0 Exp $
  *
  */
 
@@ -86,7 +86,7 @@ void position_set_centrifugal_coef(struct robot_position *pos, double coef);
 #endif
 
 /** Set a new robot position */
-void position_set(struct robot_position *pos, int16_t x, int16_t y, int16_t a);
+void position_set(struct robot_position *pos, int16_t x, int16_t y, double a_deg);
 
 void position_use_ext(struct robot_position *pos);
 void position_use_mot(struct robot_position *pos);

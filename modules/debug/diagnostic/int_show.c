@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: int_show.c,v 1.6.10.3 2008/05/09 08:23:52 zer0 Exp $
+ *  Revision : $Id: int_show.c,v 1.6.10.3 2008-05-09 08:23:52 zer0 Exp $
  *
  */
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: timer_intr.h,v 1.1.2.3 2007/05/23 17:18:15 zer0 Exp $
+ *  Revision : $Id: timer_intr.h,v 1.1.2.3 2007-05-23 17:18:15 zer0 Exp $
  *
  */
 
@@ -23,8 +23,7 @@
 
 typedef void (*timer_callback_t)(void);
 
-extern volatile timer_callback_t timer_OV_callback_table[SIG_OVERFLOW_TOTAL_NUM];
-extern volatile timer_callback_t timer_OC_callback_table[SIG_OUTPUT_COMPARE_TOTAL_NUM];
+extern volatile timer_callback_t timer_callback_table[_VECTORS_SIZE/4];
 
 /* initialisation of callback table */
 void timer_intr_init(void);

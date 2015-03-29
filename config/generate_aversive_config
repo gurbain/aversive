@@ -9,6 +9,7 @@
 #
 MODULES_LIST="CONFIG_MODULE_BRUSHLESS_3PHASE_DIGITAL_HALL,/devices/brushless_motors/brushless_3phase_digital_hall
               CONFIG_MODULE_BRUSHLESS_3PHASE_DIGITAL_HALL_DOUBLE,/devices/brushless_motors/brushless_3phase_digital_hall_double
+              CONFIG_MODULE_HOSTSIM,base/hostsim
               CONFIG_MODULE_MENU,ihm/menu
               CONFIG_MODULE_PARSE,ihm/parse
               CONFIG_MODULE_RDLINE,ihm/rdline
@@ -16,6 +17,7 @@ MODULES_LIST="CONFIG_MODULE_BRUSHLESS_3PHASE_DIGITAL_HALL,/devices/brushless_mot
               CONFIG_MODULE_LCD,devices/ihm/lcd
               CONFIG_MODULE_MULTISERVO,devices/servo/multiservo
               CONFIG_MODULE_AX12,devices/servo/ax12
+              CONFIG_MODULE_ENCODERS_HCTL,devices/encoders/encoders_hctl
               CONFIG_MODULE_ENCODERS_SPI,devices/encoders/encoders_spi
               CONFIG_MODULE_ENCODERS_MICROB,devices/encoders/encoders_microb
               CONFIG_MODULE_ENCODERS_EIRBOT,devices/encoders/encoders_eirbot
@@ -32,8 +34,10 @@ MODULES_LIST="CONFIG_MODULE_BRUSHLESS_3PHASE_DIGITAL_HALL,/devices/brushless_mot
               CONFIG_MODULE_CONTROL_SYSTEM_MANAGER,devices/control_system/control_system_manager
               CONFIG_MODULE_TIME,base/time
               CONFIG_MODULE_SCHEDULER,base/scheduler
+              CONFIG_MODULE_CALLOUT,base/callout
               CONFIG_MODULE_SPI,comm/spi
               CONFIG_MODULE_CC2420,devices/radio/cc2420
+              CONFIG_MODULE_XBEE,devices/radio/xbee
               CONFIG_MODULE_UART,comm/uart
               CONFIG_MODULE_I2C,comm/i2c
               CONFIG_MODULE_MF2_CLIENT,comm/mf2_client
@@ -125,6 +129,12 @@ if grep "CONFIG_FDEVOPEN_COMPAT=y" $1 > /dev/null 2> /dev/null
     echo "CFLAGS += -D__STDIO_FDEVOPEN_COMPAT_12" >> $2
 fi
 
+if grep "CONFIG_MODULE_HOSTSIM=y" $1 > /dev/null 2> /dev/null
+    then
+    echo "PTHREAD_CFLAGS = -pthread" >> $2
+    echo "PTHREAD_LDFLAGS = -pthread" >> $2
+fi
+
 
 
 ####
@@ -170,6 +180,11 @@ fi
 if grep "CONFIG_AVARICE_PROG_MKII=y" $1 > /dev/null 2> /dev/null
     then
     echo "AVARICE_PROGRAMMER = mkII" >> $2
+fi
+
+if grep "CONFIG_AVARICE_PROG_DRAGON=y" $1 > /dev/null 2> /dev/null
+    then
+    echo "AVARICE_PROGRAMMER = dragon" >> $2
 fi
 
 echo -n "AVARICE_PORT = " >> $2

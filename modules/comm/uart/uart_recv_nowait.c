@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: uart_recv_nowait.c,v 1.1.2.1 2008/12/27 16:29:08 zer0 Exp $
+ *  Revision : $Id: uart_recv_nowait.c,v 1.1.2.1 2008-12-27 16:29:08 zer0 Exp $
  *
  */
 
@@ -31,13 +31,23 @@ int uart_recv_nowait(uint8_t num)
 	char elt = 0;
 	uint8_t flags;
 	
-	IRQ_LOCK(flags);
-	if( !CIRBUF_IS_EMPTY(&g_rx_fifo[num]) ) {
-		elt = cirbuf_get_tail(&g_rx_fifo[num]);
-		cirbuf_del_tail(&g_rx_fifo[num]);
-		IRQ_UNLOCK(flags);
-		return (int)elt;
+	/* if interrupt mode is off, we have to check the status
+	 * register */
+	if (!(*uart_regs[num].ucsrb & (1 << RXCIE))) {
+		if ( !(*uart_regs[num].ucsra & (1 << RXC)) )
+			return -1;
+		return uart_get_udr(num);
 	}
-	IRQ_UNLOCK(flags);
-	return (-1);
+	/* else check the fifo */
+	else {
+		IRQ_LOCK(flags);
+		if( !CIRBUF_IS_EMPTY(&g_rx_fifo[num]) ) {
+			elt = cirbuf_get_tail(&g_rx_fifo[num]);
+			cirbuf_del_tail(&g_rx_fifo[num]);
+			IRQ_UNLOCK(flags);
+			return (int)elt;
+		}
+		IRQ_UNLOCK(flags);
+		return -1;
+	}
 }

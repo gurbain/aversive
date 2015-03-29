@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Revision : $Id: s32_to_f32.h,v 1.3.6.2 2008/05/10 15:06:27 zer0 Exp $
+ *  Revision : $Id: s32_to_f32.h,v 1.3.6.2 2008-05-10 15:06:27 zer0 Exp $
  *
  */
 
